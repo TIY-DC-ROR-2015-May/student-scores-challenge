@@ -4,20 +4,17 @@ require 'pry'
 
 class Student
   def self.all
-  end
-
-  def self.without_absences
-    # return [] of Students
     result = []
     CSV.foreach "db.csv" do |row|
       next if row.first == "Student Id"
-
       s = Student.new row
-      if s.absences == 0
-        result.push s
-      end
+      result.push s
     end
-    result # or `return result`
+    result
+  end
+
+  def self.without_absences
+    all.select { |student| student.absences == 0 }
   end
 
   def self.top_by_average_score
