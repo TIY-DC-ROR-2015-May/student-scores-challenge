@@ -18,7 +18,7 @@ class Student
   end
 
   def self.top_by_average_score
-    # return a student
+    all.max_by { |student| student.final_average }
   end
 
   attr_reader :id, :first_name, :absences
@@ -34,8 +34,20 @@ class Student
     @test     = Float(test)
   end
 
+  #%w( test quiz ).each do |word|
+  #  define_method "#{word}_average" do
+  #    instance_variable_get "@#{word}"
+  #  end
+  #end
   def test_average
     @test
+  end
+  def quiz_average
+    @quiz
+  end
+
+  def final_average
+    0.4 * quiz_average + 0.6 * test_average
   end
 end
 
@@ -52,6 +64,6 @@ class StudentTest < Minitest::Test
   end
 
   def test_can_find_highest_scoring_student
-    assert_equal "", Student.top_by_average_score.first_name
+    assert_equal "Toni", Student.top_by_average_score.first_name
   end
 end
